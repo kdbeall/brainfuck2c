@@ -78,9 +78,12 @@ bool compile();
  */
 int main()
 {
-  if(compile()){
+  createMainMethod();
+  createArray();
+  if(!compile()){
     return EXIT_FAILURE;
   }
+  endMain();
   return EXIT_SUCCESS;
 }
 
@@ -140,8 +143,9 @@ bool compile()
           break;
       //Error message
       default:
-          printf(USAGE_ERROR, ch);
-          return false;
+         // printf(USAGE_ERROR, ch);
+         // return false;
+          break;
     }
     printf("\n");
   }
