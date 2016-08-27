@@ -64,7 +64,7 @@ void endMain();
 /**
     Compiles our Brainfuck source, which is read from standard input.
 
-    @return true if  we have an error, else no errors
+    @return false if  we have an error, else no errors
  */
 bool compile();
 
@@ -99,7 +99,7 @@ void createMainMethod()
 
 void endMain()
 {
-
+  printf("}\n");
 }
 
 bool compile()
@@ -126,7 +126,7 @@ bool compile()
       case OUTPUT_BF:
           printf("%s\n", OUTPUT);
           break;
-      
+
       case INPUT_BF:
           printf("%s\n", OUTPUT);
           break;
@@ -143,6 +143,7 @@ bool compile()
           printf(USAGE_ERROR, ch);
           return false;
     }
+    printf("\n");
   }
   return true;
 }
