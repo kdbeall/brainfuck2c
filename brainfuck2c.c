@@ -28,10 +28,11 @@
 //Begin prototypes.
 
 /**
-   Creates the array and pointer at the start of our compiled Brainfuck program in C.
-   
+    Creates the array and pointer at the start of our compiled Brainfuck program in C.
+
  */
 void createArray();
+
 
 
 
@@ -39,8 +40,8 @@ void createArray();
 
 
 /**
-   Begins compilation.
-   @return program exit status
+    Begins compilation.
+    @return program exit status
  */
 int main()
 {
