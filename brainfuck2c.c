@@ -20,15 +20,15 @@
 //End include directives.
 
 //Begin Macros
-#define ARRAY_SIZE     30000
-#define INCREMENT      "++ptr;"
-#define DECREMENT      "--ptr;"
-#define INCREMENT_CELL "++*ptr;"
-#define DECREMENT_CELL "--*ptr;"
-#define OUTPUT         "putchar(*ptr);"
-#define INPUT          "*ptr=getchar();"
-#define JMP_FORWARD    "while (*ptr) {"
-#define JMP_BACK       "}"
+#define ARRAY_SIZE          30000
+#define INCREMENT           "++ptr;"
+#define DECREMENT           "--ptr;"
+#define INCREMENT_CELL      "++*ptr;"
+#define DECREMENT_CELL      "--*ptr;"
+#define OUTPUT              "putchar(*ptr);"
+#define INPUT               "*ptr=getchar();"
+#define JMP_FORWARD         "while (*ptr) {"
+#define JMP_BACK            "}"
 
 #define INCREMENT_BF        '>'
 #define DECREMENT_BF        '<'
