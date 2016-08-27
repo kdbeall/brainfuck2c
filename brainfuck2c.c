@@ -98,6 +98,11 @@ void endMain()
 
 bool compile()
 {
+  int ch;
+  while( (ch = getchar()) != EOF ){
+
+
+  }
 
 
 }
