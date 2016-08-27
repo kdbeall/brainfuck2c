@@ -1,6 +1,6 @@
 /**
     @file brainfuck2c.c
-    @author kdbeall,
+    @author kdbeall,jstofer21
 
     Simple example of a source to source compiler;
     compiles Brainfuck to C.
@@ -19,7 +19,7 @@
 #include <stdbool.h>
 //End include directives.
 
-//Begin macros.
+//Begin Macros
 #define ARRAY_SIZE     30000
 #define INCREMENT      "++ptr;"
 #define DECREMENT      "--ptr;"
@@ -29,6 +29,17 @@
 #define INPUT          "*ptr=getchar();"
 #define JMP_FORWARD    "while (*ptr) {"
 #define JMP_BACK       "}"
+
+#define INCREMENT_BF        '>'
+#define DECREMENT_BF        '<'
+#define INCREMENT_CELL_BF   '+'
+#define DECREMENT_CELL_BF   '-'
+#define OUTPUT_BF           '.'
+#define INPUT_BF            ','
+#define JMP_FORWARD_BF      '['
+#define JMP_BACK_BF         ']'
+
+#define USAGE_ERROR         "Invalid ascii value %d in BrainFuck Code."
 //End macros.
 
 
@@ -75,14 +86,11 @@ int main()
 
 void createArray()
 {
-  printf("char array[%d] = {0};", ARRAY_SIZE);
-  printf("\n");
-  printf("char *ptr = array;");
-  printf("\n");
-
+  printf("char array[%d] = {0};\n", ARRAY_SIZE);
+  printf("char *ptr = array;\n");
 }
 
-void createMainMethod().
+void createMainMethod()
 {
   printf("int main()\n");
   printf("{\n");
@@ -92,19 +100,51 @@ void createMainMethod().
 void endMain()
 {
 
-
-
 }
 
 bool compile()
 {
   int ch;
   while( (ch = getchar()) != EOF ){
+    switch(ch){
+      case INCREMENT_BF:
+        printf("%s\n", INCREMENT);
+        break;
 
+      case DECREMENT_BF:
+        printf("%s\n", DECREMENT);
+        break;
 
+      case INCREMENT_CELL_BF:
+        printf("%s\n", INCREMENT_CELL);
+        break;
+
+      case DECREMENT_CELL_BF:
+        printf("%s\n", DECREMENT_CELL);
+        break;
+
+      case OUTPUT_BF:
+          printf("%s\n", OUTPUT);
+          break;
+      
+      case INPUT_BF:
+          printf("%s\n", OUTPUT);
+          break;
+
+      case JMP_FORWARD_BF:
+          printf("%s\n", JMP_FORWARD);
+          break;
+
+      case JMP_BACK_BF:
+          printf("%s\n", JMP_BACK);
+          break;
+      //Error message
+      default:
+          printf(USAGE_ERROR, ch);
+          return false;
+    }
   }
-
-
+  return true;
 }
 
 
