@@ -80,3 +80,18 @@ void createMainMethod()
   printf("{\n");
 
 }
+
+void endMain()
+{
+
+
+
+}
+
+bool compile()
+{
+
+
+}
+
+
