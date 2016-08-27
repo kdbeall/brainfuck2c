@@ -20,8 +20,15 @@
 //End include directives.
 
 //Begin macros.
-#define ARRAY_SIZE 30000
-
+#define ARRAY_SIZE     30000
+#define INCREMENT      "++ptr;"
+#define DECREMENT      "--ptr;"
+#define INCREMENT_CELL "++*ptr;"
+#define DECREMENT_CELL "--*ptr;"
+#define OUTPUT         "putchar(*ptr);"
+#define INPUT          "*ptr=getchar();"
+#define JMP_FORWARD    "while (*ptr) {"
+#define JMP_BACK       "}"
 //End macros.
 
 
@@ -60,8 +67,9 @@ bool compile();
  */
 int main()
 {
-
-
+  if(compile()){
+    return EXIT_FAILURE;
+  }
   return EXIT_SUCCESS;
 }
 
@@ -74,7 +82,7 @@ void createArray()
 
 }
 
-void createMainMethod()
+void createMainMethod().
 {
   printf("int main()\n");
   printf("{\n");
