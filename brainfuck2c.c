@@ -16,7 +16,7 @@
 //Begin include directives.
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <stdbool.h>
 //End include directives.
 
 //Begin macros.
@@ -33,7 +33,22 @@
  */
 void createArray();
 
+/**
+    Create the main method.
+ */
+void createMainMethod();
 
+/**
+   Ends our main method.
+ */
+void endMain();
+
+/**
+    Compiles our Brainfuck source, which is read from standard input.
+
+    @return true if  we have an error, else no errors
+ */
+bool compile();
 
 
 //End prototypes.
@@ -59,3 +74,9 @@ void createArray()
 
 }
 
+void createMainMethod()
+{
+  printf("int main()\n");
+  printf("{\n");
+
+}
