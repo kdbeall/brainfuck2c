@@ -5,151 +5,157 @@
     Simple example of a source to source compiler;
     compiles Brainfuck to C.
 
-    This program will take input from the standard input (piped in)
-    and then output to standard output (piped out) from the terimal.
+    This program will take input from command-line arguments.
 
     Input will be a Brainfuck source file.
     Output will be the equivalent C source.
 
  */
 
-//Begin include directives.
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-//End include directives.
 
-//Begin Macros
-#define ARRAY_SIZE          30000
-#define INCREMENT           "++ptr;"
-#define DECREMENT           "--ptr;"
-#define INCREMENT_CELL      "++*ptr;"
-#define DECREMENT_CELL      "--*ptr;"
-#define OUTPUT              "putchar(*ptr);"
-#define INPUT               "*ptr=getchar();"
-#define JMP_FORWARD         "while (*ptr) {"
-#define JMP_BACK            "}"
-
-#define INCREMENT_BF        '>'
-#define DECREMENT_BF        '<'
-#define INCREMENT_CELL_BF   '+'
-#define DECREMENT_CELL_BF   '-'
-#define OUTPUT_BF           '.'
-#define INPUT_BF            ','
-#define JMP_FORWARD_BF      '['
-#define JMP_BACK_BF         ']'
-
-#define USAGE_ERROR         "Invalid ascii value %d in BrainFuck Code."
-//End macros.
-
-
-//Begin prototypes.
-
-/**
-    Creates the array and pointer at the start of our compiled Brainfuck program in C.
-
- */
-void createArray();
-
-/**
-    Create the main method.
- */
-void createMainMethod();
-
-/**
-   Ends our main method.
- */
-void endMain();
-
-/**
-    Compiles our Brainfuck source, which is read from standard input.
-
-    @return false if  we have an error, else no errors
- */
-bool compile();
-
-
-//End prototypes.
+#include "brainfuck2c.h"
 
 
 /**
     Begins compilation.
     @return program exit status
  */
-int main()
+int main(int argc, char *argv[])
 {
-  createMainMethod();
-  createArray();
-  if(!compile()){
+  if(argc != 3){
     return EXIT_FAILURE;
   }
-  endMain();
+  FILE *in = fopen(argv[1], "r");
+  if(!in){
+    perror(argv[1]);
+    return EXIT_FAILURE;
+  }
+  FILE *out = fopen(argv[2], "w");
+  if(!out){
+    perror(argv[2]);
+    return EXIT_FAILURE;
+  }
+
+
+  createMainMethod(out);
+  createArray(out);
+  if(!compile(in, out)){
+    return EXIT_FAILURE;
+  }
+  endMain(out);
+
+
+  
   return EXIT_SUCCESS;
 }
 
-void createArray()
+void createArray(FILE *out)
 {
-  printf("char array[%d] = {0};\n", ARRAY_SIZE);
-  printf("char *ptr = array;\n");
+  fprintf(out, "  char array[%d] = {0};\n", ARRAY_SIZE);
+  fprintf(out, "  char *ptr = array;\n");
 }
 
-void createMainMethod()
+void createMainMethod(FILE *out)
 {
-  printf("int main()\n");
-  printf("{\n");
+  fprintf(out, "int main()\n");
+  fprintf(out, "{\n");
 
 }
 
-void endMain()
+void endMain(FILE *out)
 {
-  printf("}\n");
+  fprintf(out, "}\n");
 }
 
-bool compile()
+bool compile(FILE *in, FILE *out)
 {
+
   int ch;
-  while( (ch = getchar()) != EOF ){
+  int d = 1;
+  while( (ch = fgetc(in)) != EOF ){
+    checkDent(d);
     switch(ch){
       case INCREMENT_BF:
-        printf("%s\n", INCREMENT);
+        indent(out, d);
+        fprintf(out, "%s\n", INCREMENT);
         break;
 
       case DECREMENT_BF:
-        printf("%s\n", DECREMENT);
+        indent(out, d);
+        fprintf(out, "%s\n", DECREMENT);
         break;
 
       case INCREMENT_CELL_BF:
-        printf("%s\n", INCREMENT_CELL);
+        indent(out, d);
+        fprintf(out, "%s\n", INCREMENT_CELL);
         break;
 
       case DECREMENT_CELL_BF:
-        printf("%s\n", DECREMENT_CELL);
+        indent(out, d);
+        fprintf(out, "%s\n", DECREMENT_CELL);
         break;
 
       case OUTPUT_BF:
-          printf("%s\n", OUTPUT);
+          indent(out, d);
+          fprintf(out, "%s\n", OUTPUT);
           break;
 
       case INPUT_BF:
-          printf("%s\n", OUTPUT);
+          indent(out, d);
+          fprintf(out, "%s\n", OUTPUT);
           break;
 
       case JMP_FORWARD_BF:
-          printf("%s\n", JMP_FORWARD);
+          indent(out, d);
+          fprintf(out, "%s\n", JMP_FORWARD);
+          d++;
           break;
 
       case JMP_BACK_BF:
-          printf("%s\n", JMP_BACK);
+          indent(out, d-1);         
+          fprintf(out, "%s\n", JMP_BACK);
+          d--;
           break;
-      //Error message
+
+
+      //We choose to ignore invalid ASCII characters than print an error.
       default:
-         // printf(USAGE_ERROR, ch);
-         // return false;
+         //fprintf(stderr, USAGE_ERROR, ch);
+         //return false;
           break;
     }
-    printf("\n");
+    fprintf(out, "\n");
   }
+
+  if(d != 1){
+    printf(ERROR);
+    exit(ERRORC);
+  }
+
   return true;
+}
+
+
+
+
+void indent( FILE *out, int d )
+{
+
+  for ( int i = 0; i<2*d; i++ ){
+
+    fputc( SPACE, out );
+
+  }
+
+}
+
+
+void checkDent( int d )
+{
+  if ( d < 1 ){
+    printf( ERROR );
+    exit( ERRORC );
+  }
 }
 
 
