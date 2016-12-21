@@ -32,7 +32,6 @@ int main(int argc, char *argv[])
   }
   FILE *out = fopen(argv[2], "w");
   if(!out){
-    perror(argv[2]);
     return EXIT_FAILURE;
   }
 
@@ -44,14 +43,15 @@ int main(int argc, char *argv[])
   }
   endMain(out);
 
+  fclose(in);
+  fclose(out);
 
-  
   return EXIT_SUCCESS;
 }
 
 void createArray(FILE *out)
 {
-  fprintf(out, "  char array[%d] = {0};\n", ARRAY_SIZE);
+  fprintf(out, "  char array[%d] = { 0 };\n", ARRAY_SIZE);
   fprintf(out, "  char *ptr = array;\n");
 }
 
